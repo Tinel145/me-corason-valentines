@@ -1,289 +1,281 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>💝 Vrei sa fii bebitu meu? 💝</title>
-    
-    <!-- Favicon cu V romantic -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23ec4899;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23f43f5e;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='48' fill='url(%23grad)'/%3E%3Ctext x='50' y='75' font-family='Arial, sans-serif' font-size='60' font-weight='bold' fill='white' text-anchor='middle'%3EV%3C/text%3E%3C/svg%3E">
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Fredoka:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0) rotate(0deg);
-            }
-            50% {
-                transform: translateY(-30px) rotate(180deg);
-            }
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>💝 Vrei sa fii bebitu meu? 💝</title>
 
-        @keyframes wiggle {
-            0%, 100% {
-                transform: rotate(0deg);
-            }
-            25% {
-                transform: rotate(-10deg) scale(1.1);
-            }
-            75% {
-                transform: rotate(10deg) scale(1.1);
-            }
-        }
+  <!-- Favicon cu V romantic -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23ec4899;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23f43f5e;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='48' fill='url(%23grad)'/%3E%3Ctext x='50' y='75' font-family='Arial, sans-serif' font-size='60' font-weight='bold' fill='white' text-anchor='middle'%3EV%3C/text%3E%3C/svg%3E">
 
-        .animate-float {
-            animation: float 5s ease-in-out infinite;
-        }
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Fredoka:wght@400;700&display=swap" rel="stylesheet">
 
-        .animate-wiggle {
-            animation: wiggle 0.5s ease-in-out infinite;
-        }
+  <style>
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-30px) rotate(180deg); }
+    }
 
-        .heart-bg {
-            position: absolute;
-            font-size: 20px;
-            opacity: 0.3;
-            pointer-events: none;
-        }
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-10deg) scale(1.1); }
+      75% { transform: rotate(10deg) scale(1.1); }
+    }
 
-        .dancing-cat {
-            animation: wiggle 0.5s ease-in-out infinite;
-        }
+    .animate-float { animation: float 5s ease-in-out infinite; }
+    .heart-bg {
+      position: absolute;
+      font-size: 20px;
+      opacity: 0.3;
+      pointer-events: none;
+      user-select: none;
+    }
 
-        #youtube-player {
-            position: absolute;
-            width: 0;
-            height: 0;
-            opacity: 0;
-            pointer-events: none;
-        }
-    </style>
+    .dancing-cat { animation: wiggle 0.5s ease-in-out infinite; }
+
+    /* Ascunde complet YouTube players */
+    #youtube-player,
+    #youtube-player-yes {
+      position: fixed;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+      left: -9999px;
+      top: -9999px;
+    }
+  </style>
 </head>
+
 <body class="bg-gradient-to-br from-pink-100 via-rose-100 to-red-100 min-h-screen overflow-hidden">
-    <!-- Floating hearts background -->
-    <div id="hearts-container" class="absolute inset-0 overflow-hidden pointer-events-none"></div>
+  <!-- Floating hearts background -->
+  <div id="hearts-container" class="absolute inset-0 overflow-hidden pointer-events-none"></div>
 
-    <!-- YouTube Player (hidden) -->
-    <div id="youtube-player"></div>
-    <div id="youtube-player-yes"></div>
+  <!-- YouTube Player (hidden) -->
+  <div id="youtube-player"></div>
+  <div id="youtube-player-yes"></div>
 
-    <!-- Dancing cats container (when clicking NO) -->
-    <div id="cats-no-container" class="fixed inset-0 z-0 grid grid-cols-3 gap-4 p-8 pointer-events-none opacity-60" style="display: none;"></div>
+  <!-- Dancing cats container (when clicking NO) -->
+  <div id="cats-no-container" class="fixed inset-0 z-0 grid grid-cols-3 gap-4 p-8 pointer-events-none opacity-60" style="display:none;"></div>
 
-    <!-- Main content -->
-    <div id="question-screen" class="relative z-10 min-h-screen flex flex-col items-center justify-center p-8">
-        <!-- Question -->
-        <h1 class="text-5xl md:text-7xl font-bold text-center mb-16 text-rose-600 drop-shadow-lg" 
-            style="font-family: 'Pacifico', cursive; text-shadow: 3px 3px 6px rgba(219, 39, 119, 0.3);">
-            Vrei sa fii bebitu meu<br />
-            de valentines day? 💝
-        </h1>
+  <!-- Main content -->
+  <div id="question-screen" class="relative z-10 min-h-screen flex flex-col items-center justify-center p-8">
+    <h1 class="text-5xl md:text-7xl font-bold text-center mb-16 text-rose-600 drop-shadow-lg"
+        style="font-family:'Pacifico', cursive; text-shadow:3px 3px 6px rgba(219,39,119,0.3);">
+      Vrei sa fii bebitu meu<br />
+      de valentines day? 💝
+    </h1>
 
-        <!-- Buttons container -->
-        <div class="flex gap-8 items-center relative" style="min-height: 100px;">
-            <!-- Yes button -->
-            <button id="yes-btn"
-                class="px-8 py-4 bg-gradient-to-r from-pink-500 to-rose-500 text-white text-2xl font-bold rounded-full shadow-2xl hover:shadow-pink-500/50 transition-all hover:scale-110 active:scale-95"
-                style="font-family: 'Fredoka', sans-serif;">
-                Da 💕
-            </button>
+    <div class="flex gap-8 items-center relative" style="min-height:100px;">
+      <button id="yes-btn"
+        class="px-8 py-4 bg-gradient-to-r from-pink-500 to-rose-500 text-white text-2xl font-bold rounded-full shadow-2xl hover:shadow-pink-500/50 transition-all hover:scale-110 active:scale-95"
+        style="font-family:'Fredoka', sans-serif;">
+        Da 💕
+      </button>
 
-            <!-- No button -->
-            <button id="no-btn"
-                class="px-8 py-4 bg-gray-400 text-white text-2xl font-bold rounded-full shadow-lg hover:bg-gray-500 transition-all"
-                style="font-family: 'Fredoka', sans-serif;">
-                NU
-            </button>
-        </div>
-
-        <p id="hint-text" class="mt-8 text-rose-500 text-xl animate-pulse font-bold" style="display: none;">
-            Hmmm... de ce fugi? 🤔
-        </p>
+      <button id="no-btn"
+        class="px-8 py-4 bg-gray-400 text-white text-2xl font-bold rounded-full shadow-lg hover:bg-gray-500 transition-all"
+        style="font-family:'Fredoka', sans-serif;">
+        NU
+      </button>
     </div>
 
-    <!-- Success screen (hidden initially) -->
-    <div id="success-screen" class="relative z-10 min-h-screen flex flex-col items-center justify-center p-8" style="display: none;">
-        <!-- Success message -->
-        <h1 class="text-6xl md:text-8xl font-bold text-center mb-8 text-rose-600 animate-bounce"
-            style="font-family: 'Pacifico', cursive;">
-            YEEEY! 🎉
-        </h1>
+    <p id="hint-text" class="mt-8 text-rose-500 text-xl animate-pulse font-bold" style="display:none;">
+      Hmmm... de ce fugi? 🤔
+    </p>
+  </div>
 
-        <!-- Dancing cats -->
-        <div id="cats-yes-container" class="grid grid-cols-3 gap-4 mb-8 max-w-4xl"></div>
+  <!-- Success screen -->
+  <div id="success-screen" class="relative z-10 min-h-screen flex flex-col items-center justify-center p-8" style="display:none;">
+    <h1 class="text-6xl md:text-8xl font-bold text-center mb-8 text-rose-600 animate-bounce"
+        style="font-family:'Pacifico', cursive;">
+      YEEEY! 🎉
+    </h1>
 
-        <!-- Message -->
-        <div class="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-2xl max-w-2xl text-center">
-            <p class="text-3xl md:text-4xl font-bold text-rose-600 mb-4"
-               style="font-family: 'Fredoka', sans-serif;">
-                La 9 la star ca altfel<br />
-                iti mananc gurita aia de bebit 😘
-            </p>
-            <div class="text-6xl mt-4">
-                💗 💕 💖 💝 💗
-            </div>
-        </div>
+    <div id="cats-yes-container" class="grid grid-cols-3 gap-4 mb-8 max-w-4xl"></div>
+
+    <div class="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-2xl max-w-2xl text-center">
+      <p class="text-3xl md:text-4xl font-bold text-rose-600 mb-4"
+         style="font-family:'Fredoka', sans-serif;">
+        La 9 la star ca altfel<br />
+        iti mananc gurita aia de bebit 😘
+      </p>
+      <div class="text-6xl mt-4">
+        💗 💕 💖 💝 💗
+      </div>
     </div>
+  </div>
 
-    <script>
-        // State
-        let answered = false;
-        let noAttempts = 0;
-        let yesButtonScale = 1;
-        let player = null;
-        let playerYes = null;
-        let showCatsNo = false;
+  <script>
+    // ---------- State ----------
+    let noAttempts = 0;
+    let yesButtonScale = 1;
 
-        const noButtonTexts = [
-            "NU",
-            "esti sigura?",
-            "nu e tot un da",
-            "ar fi culmea sa nu vrei",
-            "esti a mea nu scapi"
-        ];
+    const noButtonTexts = ["NU", "esti sigura?", "nu e tot un da", "ar fi culmea sa nu vrei", "esti a mea nu scapi"];
 
-        // Elements
-        const questionScreen = document.getElementById('question-screen');
-        const successScreen = document.getElementById('success-screen');
-        const yesBtn = document.getElementById('yes-btn');
-        const noBtn = document.getElementById('no-btn');
-        const hintText = document.getElementById('hint-text');
-        const catsNoContainer = document.getElementById('cats-no-container');
-        const catsYesContainer = document.getElementById('cats-yes-container');
+    // ---------- Elements ----------
+    const questionScreen = document.getElementById('question-screen');
+    const successScreen = document.getElementById('success-screen');
+    const yesBtn = document.getElementById('yes-btn');
+    const noBtn = document.getElementById('no-btn');
+    const hintText = document.getElementById('hint-text');
+    const catsNoContainer = document.getElementById('cats-no-container');
+    const catsYesContainer = document.getElementById('cats-yes-container');
 
-        // Create floating hearts
-        function createFloatingHearts() {
-            const container = document.getElementById('hearts-container');
-            for (let i = 0; i < 20; i++) {
-                const heart = document.createElement('div');
-                heart.className = 'heart-bg animate-float';
-                heart.textContent = '💗';
-                heart.style.left = Math.random() * 100 + '%';
-                heart.style.top = Math.random() * 100 + '%';
-                heart.style.animationDelay = Math.random() * 5 + 's';
-                heart.style.animationDuration = (5 + Math.random() * 5) + 's';
-                heart.style.fontSize = (20 + Math.random() * 30) + 'px';
-                container.appendChild(heart);
-            }
-        }
+    // ---------- Visuals ----------
+    function createFloatingHearts() {
+      const container = document.getElementById('hearts-container');
+      for (let i = 0; i < 20; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'heart-bg animate-float';
+        heart.textContent = '💗';
+        heart.style.left = Math.random() * 100 + '%';
+        heart.style.top = Math.random() * 100 + '%';
+        heart.style.animationDelay = Math.random() * 5 + 's';
+        heart.style.animationDuration = (5 + Math.random() * 5) + 's';
+        heart.style.fontSize = (20 + Math.random() * 30) + 'px';
+        container.appendChild(heart);
+      }
+    }
 
-        // Create dancing cats
-        function createDancingCats(container, count = 9) {
-            container.innerHTML = '';
-            for (let i = 0; i < count; i++) {
-                const catDiv = document.createElement('div');
-                catDiv.className = 'dancing-cat flex items-center justify-center';
-                catDiv.style.animationDelay = (i * 0.1) + 's';
-                catDiv.style.animationDuration = '0.5s';
-                
-                const img = document.createElement('img');
-                img.src = 'https://media.tenor.com/cxh006XJBv4AAAAM/hanannah-happie.gif';
-                img.alt = 'Dancing cat';
-                img.className = 'w-32 h-32 md:w-48 md:h-48 rounded-lg shadow-lg';
-                
-                catDiv.appendChild(img);
-                container.appendChild(catDiv);
-            }
-        }
+    function createDancingCats(container, count = 9) {
+      container.innerHTML = '';
+      for (let i = 0; i < count; i++) {
+        const catDiv = document.createElement('div');
+        catDiv.className = 'dancing-cat flex items-center justify-center';
+        catDiv.style.animationDelay = (i * 0.1) + 's';
+        catDiv.style.animationDuration = '0.5s';
 
-        // Load YouTube API
-        var tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        const img = document.createElement('img');
+        img.src = 'https://media.tenor.com/cxh006XJBv4AAAAM/hanannah-happie.gif';
+        img.alt = 'Dancing cat';
+        img.loading = 'lazy';
+        img.className = 'w-32 h-32 md:w-48 md:h-48 rounded-lg shadow-lg';
 
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('youtube-player', {
-                height: '0',
-                width: '0',
-                videoId: '-iG1o_s3HIQ',
-                playerVars: {
-                    'start': 23,
-                    'autoplay': 0
-                }
-            });
-            
-            playerYes = new YT.Player('youtube-player-yes', {
-                height: '0',
-                width: '0',
-                videoId: 'EA4DipdhpV8',
-                playerVars: {
-                    'autoplay': 0
-                }
-            });
-        }
+        catDiv.appendChild(img);
+        container.appendChild(catDiv);
+      }
+    }
 
-        // Yes button click
-        yesBtn.addEventListener('click', function() {
-            answered = true;
-            
-            // Hide cats from NO button if they were showing
-            catsNoContainer.style.display = 'none';
-            
-            // Show success screen
-            questionScreen.style.display = 'none';
-            successScreen.style.display = 'flex';
-            
-            // Create dancing cats
-            createDancingCats(catsYesContainer, 9);
-            
-            // Play the Yes song!
-            if (playerYes && playerYes.playVideo) {
-                playerYes.playVideo();
-            }
-            
-            // Stop No song if playing
-            if (player && player.stopVideo) {
-                player.stopVideo();
-            }
+    // ---------- YouTube (robust init) ----------
+    let playerNo = null;
+    let playerYes = null;
+    let ytReadyResolve;
+    const ytReady = new Promise(r => ytReadyResolve = r);
+
+    // IMPORTANT: define callback BEFORE loading the API (race-condition fix)
+    window.onYouTubeIframeAPIReady = function () {
+      try {
+        playerNo = new YT.Player('youtube-player', {
+          height: '1',
+          width: '1',
+          videoId: '-iG1o_s3HIQ',
+          playerVars: {
+            start: 23,
+            autoplay: 0,
+            playsinline: 1
+          },
+          events: { onReady: () => ytReadyResolve(true) }
         });
 
-        // No button click
-        noBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // Play song on first click
-            if (noAttempts === 0 && player) {
-                player.playVideo();
-                showCatsNo = true;
-                catsNoContainer.style.display = 'grid';
-                createDancingCats(catsNoContainer, 9);
-            }
-            
-            // Move button to random position
-            const maxX = window.innerWidth - noBtn.offsetWidth - 50;
-            const maxY = window.innerHeight - noBtn.offsetHeight - 50;
-            
-            noBtn.style.position = 'fixed';
-            noBtn.style.left = (Math.random() * maxX) + 'px';
-            noBtn.style.top = (Math.random() * maxY) + 'px';
-            
-            // Increase yes button size
-            yesButtonScale += 0.2;
-            yesBtn.style.transform = `scale(${yesButtonScale})`;
-            
-            // Update no button text
-            noAttempts = Math.min(noAttempts + 1, noButtonTexts.length - 1);
-            noBtn.textContent = noButtonTexts[noAttempts];
-            
-            // Show hint
-            if (noAttempts > 0) {
-                hintText.style.display = 'block';
-            }
+        playerYes = new YT.Player('youtube-player-yes', {
+          height: '1',
+          width: '1',
+          videoId: 'EA4DipdhpV8',
+          playerVars: {
+            autoplay: 0,
+            playsinline: 1
+          }
         });
+      } catch (err) {
+        // Dacă YouTube e blocat (adblock/CSP), pagina rămâne funcțională fără muzică.
+        ytReadyResolve(false);
+      }
+    };
 
-        // No button hover (makes it run away)
-        noBtn.addEventListener('mouseenter', function(e) {
-            if (noAttempts > 0) {
-                noBtn.click();
-            }
-        });
+    // Load YouTube API
+    (function loadYT() {
+      const tag = document.createElement('script');
+      tag.src = "https://www.youtube.com/iframe_api";
+      document.head.appendChild(tag);
+    })();
 
-        // Initialize
-        createFloatingHearts();
-    </script>
+    // Helpers
+    function safePlay(p) {
+      try {
+        if (p && typeof p.playVideo === "function") p.playVideo();
+      } catch (e) {}
+    }
+    function safeStop(p) {
+      try {
+        if (p && typeof p.stopVideo === "function") p.stopVideo();
+      } catch (e) {}
+    }
+
+    // ---------- Interactions ----------
+    yesBtn.addEventListener('click', async function() {
+      // UI
+      catsNoContainer.style.display = 'none';
+      questionScreen.style.display = 'none';
+      successScreen.style.display = 'flex';
+      createDancingCats(catsYesContainer, 9);
+
+      // Audio
+      await ytReady; // așteaptă player-ul (dacă e disponibil)
+      safeStop(playerNo);
+      safePlay(playerYes);
+    });
+
+    function moveNoButtonRandom() {
+      const padding = 16;
+
+      const btnW = noBtn.offsetWidth;
+      const btnH = noBtn.offsetHeight;
+
+      const maxX = Math.max(padding, window.innerWidth - btnW - padding);
+      const maxY = Math.max(padding, window.innerHeight - btnH - padding);
+
+      const x = padding + Math.random() * (maxX - padding);
+      const y = padding + Math.random() * (maxY - padding);
+
+      noBtn.style.position = 'fixed';
+      noBtn.style.left = x + 'px';
+      noBtn.style.top = y + 'px';
+    }
+
+    noBtn.addEventListener('click', async function(e) {
+      e.preventDefault();
+
+      // First click: play NO song + cats
+      if (noAttempts === 0) {
+        catsNoContainer.style.display = 'grid';
+        createDancingCats(catsNoContainer, 9);
+
+        await ytReady;
+        safePlay(playerNo);
+      }
+
+      moveNoButtonRandom();
+
+      yesButtonScale += 0.2;
+      yesBtn.style.transform = `scale(${yesButtonScale})`;
+
+      noAttempts = Math.min(noAttempts + 1, noButtonTexts.length - 1);
+      noBtn.textContent = noButtonTexts[noAttempts];
+
+      if (noAttempts > 0) hintText.style.display = 'block';
+    });
+
+    // Make it run away on hover / pointer (desktop + mobile-ish)
+    const runAway = () => { if (noAttempts > 0) noBtn.click(); };
+    noBtn.addEventListener('mouseenter', runAway);
+    noBtn.addEventListener('pointerenter', runAway);
+
+    // Init
+    createFloatingHearts();
+  </script>
 </body>
 </html>
