@@ -68,6 +68,7 @@
 
     <!-- YouTube Player (hidden) -->
     <div id="youtube-player"></div>
+    <div id="youtube-player-yes"></div>
 
     <!-- Dancing cats container (when clicking NO) -->
     <div id="cats-no-container" class="fixed inset-0 z-0 grid grid-cols-3 gap-4 p-8 pointer-events-none opacity-60" style="display: none;"></div>
@@ -133,6 +134,7 @@
         let noAttempts = 0;
         let yesButtonScale = 1;
         let player = null;
+        let playerYes = null;
         let showCatsNo = false;
 
         const noButtonTexts = [
@@ -178,7 +180,7 @@
                 catDiv.style.animationDuration = '0.5s';
                 
                 const img = document.createElement('img');
-                img.src = 'https://tenor.com/j2OvUFI8jko.gif';
+                img.src = 'https://media.tenor.com/cxh006XJBv4AAAAM/hanannah-happie.gif';
                 img.alt = 'Dancing cat';
                 img.className = 'w-32 h-32 md:w-48 md:h-48 rounded-lg shadow-lg';
                 
@@ -203,6 +205,15 @@
                     'autoplay': 0
                 }
             });
+            
+            playerYes = new YT.Player('youtube-player-yes', {
+                height: '0',
+                width: '0',
+                videoId: 'EA4DipdhpV8',
+                playerVars: {
+                    'autoplay': 0
+                }
+            });
         }
 
         // Yes button click
@@ -219,24 +230,12 @@
             // Create dancing cats
             createDancingCats(catsYesContainer, 9);
             
-            // Play YEEEY sound (simple beep)
-            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
+            // Play the Yes song!
+            if (playerYes && playerYes.playVideo) {
+                playerYes.playVideo();
+            }
             
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            
-            oscillator.frequency.value = 800;
-            oscillator.type = 'sine';
-            
-            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
-            
-            oscillator.start(audioContext.currentTime);
-            oscillator.stop(audioContext.currentTime + 0.5);
-            
-            // Stop YouTube if playing
+            // Stop No song if playing
             if (player && player.stopVideo) {
                 player.stopVideo();
             }
